@@ -1,2 +1,2 @@
-# centric-rest-api-assignment
-Takehome for Centric's full time Software Developer interview.
+# Product REST API
+Takehome assignment for Centric's full time Software Developer interview.
