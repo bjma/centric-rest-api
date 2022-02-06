@@ -1,20 +1,16 @@
 package api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue()
     private UUID id;
 
     private String name;
@@ -23,6 +19,9 @@ public class Product {
 
     private String brand;
 
+    // https://www.callicoder.com/hibernate-spring-boot-jpa-element-collection-demo/
+    @ElementCollection
+    @CollectionTable(name="tags", joinColumns=@JoinColumn(name="id"))
     private List<String> tags;
 
     private String category;
@@ -46,35 +45,7 @@ public class Product {
         this.createdAt = createdAt;
     }
 
-    public UUID getId() {
-        return id;
-    } 
+    public void setId(UUID id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
+    public void setCreatedAt(String created_at) { this.createdAt = created_at; }
 }

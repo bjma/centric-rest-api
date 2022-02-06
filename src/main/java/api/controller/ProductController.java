@@ -1,7 +1,6 @@
 package api.controller;
 
 import api.model.Product;
-import api.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +20,6 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
-    ProductRepository productRepository;
 
     @GetMapping
     public String findAll() {
