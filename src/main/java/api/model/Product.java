@@ -13,10 +13,13 @@ public class Product {
     @GeneratedValue()
     private UUID id;
 
+    @Column(name="name")
     private String name;
 
+    @Column(name="description")
     private String description;
 
+    @Column(name="brand")
     private String brand;
 
     // https://www.callicoder.com/hibernate-spring-boot-jpa-element-collection-demo/
@@ -24,6 +27,7 @@ public class Product {
     @CollectionTable(name="tags", joinColumns=@JoinColumn(name="id"))
     private List<String> tags;
 
+    @Column(name="category")
     private String category;
 
     @Column(name="created_at")
@@ -45,7 +49,24 @@ public class Product {
         this.createdAt = createdAt;
     }
 
+    // Note to self: private constructor is needed to actually return something
+    private Product() {}
+
     public void setId(UUID id) { this.id = id; }
 
     public void setCreatedAt(String created_at) { this.createdAt = created_at; }
+
+    public UUID getId() { return id; }
+
+    public String getName() { return name; }
+
+    public String getDescription() { return description; }
+
+    public String getBrand() { return brand; }
+
+    public List<String> getTags() { return tags; }
+
+    public String getCategory() { return category; }
+
+    public String getCreatedAt() { return createdAt; }
 }
