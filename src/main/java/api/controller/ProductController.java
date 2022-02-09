@@ -45,12 +45,12 @@ public class ProductController {
      *         in order from newest to oldest.
      */
     @GetMapping
-    public ResponseEntity<Map<String, Object>> findAllByCategory(
+    public ResponseEntity<Map<String, Object>> findAllProductsByCategory(
             @RequestParam(name="category", defaultValue="all") @Valid @Pattern(regexp="[^0-9]*") String category,
             @RequestParam(name="page", defaultValue="1") @Valid @Min(1) Integer pageNum,
             @RequestParam(name="max", defaultValue="10") @Valid @Min(0) Integer maxEntries) {
         Map<String, Object> response = new HashMap<>();
-        
+
         try {
             List<Product> products;
 

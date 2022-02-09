@@ -1,4 +1,4 @@
-package api.controller;
+package api.controller.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalExceptionHandler {
     @ExceptionHandler(value={
         IllegalArgumentException.class,
         ConstraintViolationException.class
