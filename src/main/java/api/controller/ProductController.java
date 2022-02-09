@@ -42,9 +42,10 @@ public class ProductController {
 
         try {
             List<Product> products;
+            
             // For the client's convenience, have the pageNum query parameter
             // start at 1, since this is more intuitive to the user.
-            // An offset of -1 is then used for correct pagination.
+            // An offset of -1 is used for correct pagination according to the Spring Data API.
             Pageable productPage = PageRequest.of(
                 pageNum-1, 
                 maxEntries, 
