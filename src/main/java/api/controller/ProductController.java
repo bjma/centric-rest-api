@@ -7,6 +7,11 @@ import api.util.TimestampHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -26,36 +31,48 @@ public class ProductController {
      * all items from the database are retrieved.
      * @param category
      * @return JSON response detailing products from specified category (all if not specified)
+     *         in order from newest to oldest.
      */
     @GetMapping
-    public ResponseEntity<Map<String, Object>> findByCategory(
-            @RequestParam(name="category", defaultValue="all") String category) {
+    public ResponseEntity<Map<String, Object>> findAllByCategory(
+            @RequestParam(name="category", defaultValue="all") String category,
+            @RequestParam(name="page", defaultValue="1") Integer pageNum,
+            @RequestParam(name="max", defaultValue="10") Integer maxEntries) {
         Map<String, Object> response = new HashMap<>();
 
         try {
             List<Product> products;
+            // For the client's convenience, have the pageNum query parameter
+            // start at 1, since this is more intuitive to the user.
+            // An offset of -1 is then used for correct pagination.
+            Pageable productPage = PageRequest.of(
+                pageNum-1, 
+                maxEntries, 
+                Sort.by("createdAt").descending()
+            );
             
+            Page<Product> p;
             if (category.equals("all")) {
-                products = productRepository.findAll();
+                p = productRepository.findAll(productPage);
             } else {
-                products = null;
+                p = productRepository.findAllByCategory(category, productPage);
             }
-            
+            products = p.getContent();
+
             response.put("status", HttpStatus.OK);
             response.put("data", products);
-
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
             response.put("error", e.getClass().getName());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      * Handles POST requests at /v1/products
      * @param product JSON object for a Product from RequestBody
-     * @return JSON response detailing data inserted and HTTP status
+     * @return JSON response detailing data inserted and HTTP response status
      */
     @PostMapping
     public ResponseEntity<Map<String, Object>> insertProduct(@RequestBody Product product) {
@@ -70,7 +87,7 @@ public class ProductController {
         } catch (Exception e) {
             response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
             response.put("error", e.getClass().getName());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
