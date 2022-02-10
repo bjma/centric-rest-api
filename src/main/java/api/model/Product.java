@@ -1,7 +1,5 @@
 package api.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +31,8 @@ public class Product {
     @Column(name="created_at")
     private String createdAt;
 
+    public Product() {}
+
     public Product(UUID id,
                    String name,
                    String description,
@@ -48,9 +48,6 @@ public class Product {
         this.category = category;
         this.createdAt = createdAt;
     }
-
-    // Note to self: private constructor is needed to actually return something
-    private Product() {}
 
     public void setId(UUID id) { this.id = id; }
 
