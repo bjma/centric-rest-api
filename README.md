@@ -28,7 +28,7 @@ Currently, the API only supports two HTTP methods: `GET` and `POST`. Both are ac
 * `GET http://localhost:8080/v1/products`
   * Returns a JSON object with the following fields:
     * `data` - An array of products sorted from newest created to oldest, with an optional filter by `category`
-      * Query parameters: `max`, `category`
+      * Query parameters: `max`, `category`, `page` (starts at `page=1`)
     * `status` - HTTP status of request
 
 ## Testing
